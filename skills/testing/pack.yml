@@ -8,3 +8,7 @@ skills:
   - generate-tests
 dependencies:
   - core
+mcp_servers:
+  playwright:
+    command: npx
+    args: ["@anthropic-ai/mcp-server-playwright"]

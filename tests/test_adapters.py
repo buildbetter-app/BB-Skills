@@ -1,5 +1,6 @@
 """Tests for platform adapters."""
 
+import json
 import pytest
 from pathlib import Path
 from bb_skills_adapters.base import BaseAdapter, parse_skill_frontmatter
@@ -79,6 +80,47 @@ description: A test
     def test_is_available(self):
         result = self.adapter.is_available()
         assert isinstance(result, bool)
+
+    def test_get_missing_mcp_servers_no_settings(self, tmp_path):
+        adapter = ClaudeAdapter()
+        adapter.settings_path = lambda: tmp_path / "settings.json"
+        required = {"playwright": {"command": "npx", "args": ["@anthropic-ai/mcp-server-playwright"]}}
+        assert adapter.get_missing_mcp_servers(required) == required
+
+    def test_get_missing_mcp_servers_already_configured(self, tmp_path):
+        settings_file = tmp_path / "settings.json"
+        settings_file.write_text(json.dumps({
+            "mcpServers": {"playwright": {"command": "npx", "args": ["@anthropic-ai/mcp-server-playwright"]}}
+        }))
+        adapter = ClaudeAdapter()
+        adapter.settings_path = lambda: settings_file
+        required = {"playwright": {"command": "npx", "args": ["@anthropic-ai/mcp-server-playwright"]}}
+        assert adapter.get_missing_mcp_servers(required) == {}
+
+    def test_add_mcp_servers_creates_settings(self, tmp_path):
+        settings_file = tmp_path / "settings.json"
+        adapter = ClaudeAdapter()
+        adapter.settings_path = lambda: settings_file
+        adapter.add_mcp_servers({"playwright": {"command": "npx", "args": ["@anthropic-ai/mcp-server-playwright"]}})
+        data = json.loads(settings_file.read_text())
+        assert "playwright" in data["mcpServers"]
+
+    def test_add_mcp_servers_preserves_existing(self, tmp_path):
+        settings_file = tmp_path / "settings.json"
+        settings_file.write_text(json.dumps({
+            "mcpServers": {"playwright": {"command": "custom", "args": ["--custom"]}},
+            "otherKey": True,
+        }))
+        adapter = ClaudeAdapter()
+        adapter.settings_path = lambda: settings_file
+        adapter.add_mcp_servers({
+            "playwright": {"command": "npx", "args": ["@anthropic-ai/mcp-server-playwright"]},
+            "new-server": {"command": "npx", "args": ["new-server"]},
+        })
+        data = json.loads(settings_file.read_text())
+        assert data["mcpServers"]["playwright"]["command"] == "custom"
+        assert "new-server" in data["mcpServers"]
+        assert data["otherKey"] is True
 
 
 # ---------------------------------------------------------------------------
