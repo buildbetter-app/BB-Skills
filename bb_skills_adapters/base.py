@@ -81,3 +81,11 @@ class BaseAdapter(ABC):
     @property
     def supports_multi_file(self) -> bool:
         return False
+
+    def get_missing_mcp_servers(self, required: dict[str, dict]) -> dict[str, dict]:
+        """Return MCP servers not yet configured. Default: empty (no MCP support)."""
+        return {}
+
+    def add_mcp_servers(self, servers: dict[str, dict]) -> None:
+        """Add MCP servers to platform config. Default: no-op."""
+        pass
