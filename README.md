@@ -10,21 +10,22 @@ BB-Skills is a collection of AI coding skills you can install into your favorite
 
 ## Quick start
 
-### 1. Install the CLI
+### Option A: npx (fastest, no install)
+
+```bash
+npx skills add buildbetter-app/BB-Skills
+```
+
+Or install a specific skill:
+
+```bash
+npx skills add buildbetter-app/BB-Skills --skill trust-but-verify
+```
+
+### Option B: bb-skills CLI (pack-based install)
 
 ```bash
 pip install bb-skills
-```
-
-Or with [uv](https://docs.astral.sh/uv/) (faster):
-
-```bash
-uv tool install bb-skills
-```
-
-### 2. Install skill packs
-
-```bash
 bb-skills install spec-workflow    # spec-driven development skills
 bb-skills install testing          # browser testing skills
 bb-skills install all              # everything
