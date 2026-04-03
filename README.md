@@ -10,29 +10,37 @@ BB-Skills is a collection of AI coding skills you can install into your favorite
 
 ## Quick start
 
-### Option 1: Install from GitHub
+### 1. Install the CLI
 
 ```bash
 pip install bb-skills
-bb-skills install spec-workflow
-bb-skills install testing
 ```
 
-### Option 2: Clone and install locally
-
-```bash
-git clone https://github.com/buildbetter-app/BB-Skills.git
-cd BB-Skills
-pip install -e .
-bb-skills install spec-workflow
-```
-
-### Option 3: uv (fastest)
+Or with [uv](https://docs.astral.sh/uv/) (faster):
 
 ```bash
 uv tool install bb-skills
-bb-skills install testing
 ```
+
+### 2. Install skill packs
+
+```bash
+bb-skills install spec-workflow    # spec-driven development skills
+bb-skills install testing          # browser testing skills
+bb-skills install all              # everything
+```
+
+### 3. Use them
+
+Skills are installed into your AI coding agent. On platforms with slash commands (Claude Code, Codex, Gemini):
+
+```
+/specify Build a user dashboard with activity feed
+/plan
+/trust-but-verify
+```
+
+On passive platforms (Cursor, Copilot, Windsurf, Amazon Q), skills are injected as context automatically.
 
 ## Available packs
 
