@@ -42,6 +42,28 @@ Skills are installed into your AI coding agent. On platforms with slash commands
 
 On passive platforms (Cursor, Copilot, Windsurf, Amazon Q), skills are injected as context automatically.
 
+## How it works
+
+You run `bb-skills install` once per machine. The CLI auto-detects which AI coding platforms you have installed (`~/.claude/`, `~/.codex/`, `~/.gemini/`, `.cursor/`, etc.) and copies skills to all of them in the correct format.
+
+To see what platforms are detected:
+
+```bash
+bb-skills platforms
+```
+
+To install for a specific platform only:
+
+```bash
+bb-skills install testing --platform claude
+```
+
+To install a single skill instead of a whole pack:
+
+```bash
+bb-skills install trust-but-verify
+```
+
 ## Available packs
 
 | Pack | Skills | Description |
