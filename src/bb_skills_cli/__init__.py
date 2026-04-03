@@ -431,6 +431,7 @@ def create_app(skills_dir: Optional[Path] = None) -> typer.Typer:
             config_path.parent.mkdir(parents=True, exist_ok=True)
 
             config_path.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
+            config_path.chmod(0o600)
             console.print(f"\n[green]Saved to {config_path} ({env_name})[/green]")
 
             # Offer to set env vars in shell profile
@@ -443,7 +444,8 @@ def create_app(skills_dir: Optional[Path] = None) -> typer.Typer:
                 profile = None
 
             if profile:
-                if typer.confirm(f"Add env vars to {profile}?", default=True):
+                console.print("[yellow]Warning: this writes your API key in plaintext to your shell profile.[/yellow]")
+                if typer.confirm(f"Add env vars to {profile}?", default=False):
                     lines = f'\nexport BUILDBETTER_API_KEY="{key}"\n'
                     lines += f'export BUILDBETTER_GRAPHQL_URL="{env["api_url"]}"\n'
                     with open(profile, "a") as f:
@@ -460,6 +462,7 @@ def create_app(skills_dir: Optional[Path] = None) -> typer.Typer:
                 config["buildbetter_graphql_url"] = env["api_url"]
                 config_path.parent.mkdir(parents=True, exist_ok=True)
                 config_path.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
+                config_path.chmod(0o600)
                 console.print(f"[green]Switched to {env_name} environment.[/green]")
             else:
                 console.print("[dim]Skipped. You can run bb-skills configure anytime.[/dim]")

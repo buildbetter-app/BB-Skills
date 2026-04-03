@@ -254,7 +254,11 @@ def git_current_branch(repo_root: Path) -> str | None:
 
 def resolve_feature_dir(repo_root: Path, explicit_feature_dir: str | None) -> Path:
     if explicit_feature_dir:
-        return Path(explicit_feature_dir).expanduser().resolve()
+        resolved = Path(explicit_feature_dir).expanduser().resolve()
+        repo_resolved = repo_root.resolve()
+        if repo_resolved not in resolved.parents and resolved != repo_resolved:
+            raise ValueError(f"--feature-dir must be inside the repo root: {repo_resolved}")
+        return resolved
 
     specs_dir = repo_root / "specs"
     specs_dir.mkdir(parents=True, exist_ok=True)
@@ -394,6 +398,7 @@ def jsonrpc_call(url: str, api_key: str, method: str, params: dict[str, Any], re
     headers = {
         "Content-Type": "application/json",
         "Accept": "application/json, text/event-stream, */*",
+        "User-Agent": "bb-skills/1.0",
     }
 
     request = urllib.request.Request(endpoint, data=data, headers=headers, method="POST")
