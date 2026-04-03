@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# BB-Skills runtime
+skills/testing/app-navigator/playbooks/
+skills/testing/app-navigator/app-map.md
+skills/testing/app-navigator/component-map.md
+
+# BuildBetter artifacts
+.specify/
+buildbetter-context.json
+buildbetter-context.md
+user-stories.md
+
+# Test artifacts
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Project
+*.log
+.env
+.env.local

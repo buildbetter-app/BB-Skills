@@ -1,0 +1,16 @@
+name: spec-workflow
+display_name: "Spec-Driven Workflow"
+description: "BuildBetter-enriched specification-driven development skills — specify features, plan implementations, generate tasks, and review with customer evidence"
+version: "1.0.0"
+skills:
+  - specify
+  - plan
+  - review
+  - tasks
+  - clarify
+  - analyze
+  - checklist
+  - constitution
+  - implement
+dependencies:
+  - core

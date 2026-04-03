@@ -1,0 +1,7 @@
+name: core
+display_name: "Core"
+description: "Essential BB-Skills utilities including update checking"
+version: "1.0.0"
+skills:
+  - bb-skills-update
+dependencies: []

@@ -1,0 +1,10 @@
+name: testing
+display_name: "Browser Testing"
+description: "Map your app UI, verify feature branches in a real browser, and generate Playwright test suites"
+version: "1.0.0"
+skills:
+  - app-navigator
+  - trust-but-verify
+  - generate-tests
+dependencies:
+  - core

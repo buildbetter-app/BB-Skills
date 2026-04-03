@@ -1,0 +1,48 @@
+[project]
+name = "bb-skills"
+version = "1.0.0"
+description = "Install and manage BB-Skills — AI coding skills enriched with BuildBetter customer evidence."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+authors = [
+    { name = "BuildBetter", email = "eng@buildbetter.app" },
+]
+keywords = ["ai", "skills", "claude", "codex", "buildbetter", "spec-driven"]
+dependencies = [
+    "typer>=0.9",
+    "rich>=13.0",
+    "httpx>=0.24",
+    "pyyaml>=6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/buildbetter-app/BB-Skills"
+Repository = "https://github.com/buildbetter-app/BB-Skills"
+Issues = "https://github.com/buildbetter-app/BB-Skills/issues"
+
+[project.scripts]
+bb-skills = "bb_skills_cli:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/bb_skills_cli", "bb_skills_adapters", "skills", "scripts", "templates"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+source = ["src", "bb_skills_adapters"]
+omit = ["*/tests/*", "*/__pycache__/*"]
