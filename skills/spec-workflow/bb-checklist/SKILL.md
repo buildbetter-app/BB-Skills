@@ -1,5 +1,5 @@
 ---
-name: checklist
+name: bb-checklist
 description: Generate a custom checklist for the current feature based on user requirements.
 argument-hint: <checklist domain or focus area>
 ---

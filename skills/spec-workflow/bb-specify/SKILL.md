@@ -1,5 +1,5 @@
 ---
-name: specify
+name: bb-specify
 description: Create or update the feature specification from a natural language feature description.
 argument-hint: <feature description>
 ---
@@ -150,7 +150,7 @@ Given that feature description, do this:
       
       ## Notes
       
-      - Items marked incomplete require spec updates before using the clarify or plan skills
+      - Items marked incomplete require spec updates before using the bb-clarify or bb-plan skills
       ```
 
    b. **Run Validation Check**: Review the spec against each checklist item:
@@ -204,7 +204,7 @@ Given that feature description, do this:
 
    d. **Update Checklist**: After each validation iteration, update the checklist file with current pass/fail status
 
-8. Report completion with branch name, spec file path, BuildBetter artifact paths, checklist results, and readiness for the next phase (use the clarify or plan skills).
+8. Report completion with branch name, spec file path, BuildBetter artifact paths, checklist results, and readiness for the next phase (use the bb-clarify or bb-plan skills).
 
 ## General Guidelines
 

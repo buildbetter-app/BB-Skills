@@ -1,5 +1,5 @@
 ---
-name: plan
+name: bb-plan
 description: Execute the implementation planning workflow using the plan template to generate design artifacts.
 argument-hint: <tech stack and context>
 ---

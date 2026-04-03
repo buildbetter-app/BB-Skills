@@ -36,8 +36,8 @@ bb-skills install all              # everything
 Skills are installed into your AI coding agent. On platforms with slash commands (Claude Code, Codex, Gemini):
 
 ```
-/specify Build a user dashboard with activity feed
-/plan
+/bb-specify Build a user dashboard with activity feed
+/bb-plan
 /trust-but-verify
 ```
 
@@ -70,7 +70,7 @@ bb-skills install trust-but-verify
 | Pack | Skills | Description |
 |------|--------|-------------|
 | `core` | bb-skills-update | Update checker (auto-included) |
-| `spec-workflow` | specify, plan, review, tasks, clarify, analyze, checklist, constitution, implement | BuildBetter-enriched spec-driven development |
+| `spec-workflow` | bb-specify, bb-plan, bb-review, bb-tasks, bb-clarify, bb-analyze, bb-checklist, bb-constitution, bb-implement | BuildBetter-enriched spec-driven development |
 | `testing` | app-navigator, trust-but-verify, generate-tests | Browser-based verification and Playwright test generation |
 
 ## Platform support
@@ -97,15 +97,15 @@ bb-skills install trust-but-verify
 
 | Skill | Description |
 |-------|-------------|
-| [specify](skills/spec-workflow/specify/) | Define what you want to build -- requirements and user stories |
-| [plan](skills/spec-workflow/plan/) | Create a technical implementation plan with your chosen tech stack |
-| [review](skills/spec-workflow/review/) | BuildBetter-first usability and code review |
-| [tasks](skills/spec-workflow/tasks/) | Generate an actionable task list from your implementation plan |
-| [clarify](skills/spec-workflow/clarify/) | Clarify underspecified areas before planning |
-| [analyze](skills/spec-workflow/analyze/) | Cross-artifact consistency and coverage analysis |
-| [checklist](skills/spec-workflow/checklist/) | Generate quality checklists that validate requirements completeness |
-| [constitution](skills/spec-workflow/constitution/) | Create or update project governing principles |
-| [implement](skills/spec-workflow/implement/) | Execute all tasks to build the feature according to the plan |
+| [bb-specify](skills/spec-workflow/bb-specify/) | Define what you want to build -- requirements and user stories |
+| [bb-plan](skills/spec-workflow/bb-plan/) | Create a technical implementation plan with your chosen tech stack |
+| [bb-review](skills/spec-workflow/bb-review/) | BuildBetter-first usability and code review |
+| [bb-tasks](skills/spec-workflow/bb-tasks/) | Generate an actionable task list from your implementation plan |
+| [bb-clarify](skills/spec-workflow/bb-clarify/) | Clarify underspecified areas before planning |
+| [bb-analyze](skills/spec-workflow/bb-analyze/) | Cross-artifact consistency and coverage analysis |
+| [bb-checklist](skills/spec-workflow/bb-checklist/) | Generate quality checklists that validate requirements completeness |
+| [bb-constitution](skills/spec-workflow/bb-constitution/) | Create or update project governing principles |
+| [bb-implement](skills/spec-workflow/bb-implement/) | Execute all tasks to build the feature according to the plan |
 
 ### testing
 

@@ -1,5 +1,5 @@
 ---
-name: analyze
+name: bb-analyze
 description: Perform a non-destructive cross-artifact consistency and quality analysis across spec.md, plan.md, and tasks.md after task generation.
 ---
 
@@ -13,7 +13,7 @@ You **MUST** consider the user input before proceeding (if not empty).
 
 ## Goal
 
-Identify inconsistencies, duplications, ambiguities, and underspecified items across the three core artifacts (`spec.md`, `plan.md`, `tasks.md`) before implementation. This skill MUST run only after the tasks skill has successfully produced a complete `tasks.md`.
+Identify inconsistencies, duplications, ambiguities, and underspecified items across the three core artifacts (`spec.md`, `plan.md`, `tasks.md`) before implementation. This skill MUST run only after the bb-tasks skill has successfully produced a complete `tasks.md`.
 
 ## Operating Constraints
 
@@ -155,9 +155,9 @@ Output a Markdown report (no file writes) with the following structure:
 
 At end of report, output a concise Next Actions block:
 
-- If CRITICAL issues exist: Recommend resolving before using the implement skill
+- If CRITICAL issues exist: Recommend resolving before using the bb-implement skill
 - If only LOW/MEDIUM: User may proceed, but provide improvement suggestions
-- Provide explicit suggestions: e.g., "Run the specify skill with refinement", "Run the plan skill to adjust architecture", "Manually edit tasks.md to add coverage for 'performance-metrics'"
+- Provide explicit suggestions: e.g., "Run the bb-specify skill with refinement", "Run the bb-plan skill to adjust architecture", "Manually edit tasks.md to add coverage for 'performance-metrics'"
 
 ### 8. Offer Remediation
 

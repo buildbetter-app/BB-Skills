@@ -1,7 +1,8 @@
 """BB-Skills CLI — install, update, and manage AI coding skills."""
 
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 
+import os
 import shutil
 import sys
 from pathlib import Path
@@ -210,6 +211,20 @@ def create_app(skills_dir: Optional[Path] = None) -> typer.Typer:
             manifest.add_pack(pack_name, skill_list)
         manifest.save()
 
+        # Prompt for API key if spec-workflow was installed and not configured
+        has_spec_workflow = any(p == "spec-workflow" for p, _, _ in targets)
+        if has_spec_workflow:
+            config_path = Path.home() / ".bb-skills" / "config.json"
+            has_key = False
+            if config_path.exists():
+                import json
+                cfg = json.loads(config_path.read_text(encoding="utf-8"))
+                has_key = bool(cfg.get("buildbetter_api_key"))
+
+            if not has_key and not os.environ.get("BUILDBETTER_API_KEY"):
+                console.print("\n[bold]Optional:[/bold] Spec-workflow skills work best with a BuildBetter API key.")
+                console.print("Run [bold]bb-skills configure[/bold] to set it up, or continue without it.\n")
+
         console.print(f"\n[green]Installed {len(targets)} skill(s) to {len(adapters)} platform(s).[/green]")
 
     @app.command()
@@ -366,6 +381,57 @@ def create_app(skills_dir: Optional[Path] = None) -> typer.Typer:
             table.add_row(adapter.display_name, detected, slash, str(adapter.install_path("example-skill")))
 
         console.print(table)
+
+    @app.command()
+    def configure():
+        """Configure BuildBetter API key and other settings."""
+        config_path = Path.home() / ".bb-skills" / "config.json"
+
+        # Load existing config
+        config = {}
+        if config_path.exists():
+            import json
+            config = json.loads(config_path.read_text(encoding="utf-8"))
+
+        current_key = config.get("buildbetter_api_key", "")
+        if current_key:
+            masked = current_key[:4] + "..." + current_key[-4:] if len(current_key) > 8 else "****"
+            console.print(f"Current API key: {masked}")
+
+        console.print("\nBuildBetter API key enables customer evidence in spec-workflow skills.")
+        console.print("Get yours at https://app.buildbetter.app/settings/api")
+        console.print("Press Enter to skip.\n")
+
+        key = typer.prompt("BuildBetter API key", default="", show_default=False)
+
+        if key:
+            config["buildbetter_api_key"] = key
+            config_path.parent.mkdir(parents=True, exist_ok=True)
+
+            import json
+            config_path.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
+            console.print(f"\n[green]API key saved to {config_path}[/green]")
+
+            # Offer to set env var in shell profile
+            shell = os.environ.get("SHELL", "")
+            if "zsh" in shell:
+                profile = Path.home() / ".zshrc"
+            elif "bash" in shell:
+                profile = Path.home() / ".bashrc"
+            else:
+                profile = None
+
+            if profile:
+                if typer.confirm(f"Add BUILDBETTER_API_KEY to {profile}?", default=True):
+                    line = f'\nexport BUILDBETTER_API_KEY="{key}"\n'
+                    with open(profile, "a") as f:
+                        f.write(line)
+                    console.print(f"[green]Added to {profile}. Run `source {profile}` or open a new terminal.[/green]")
+                else:
+                    console.print(f"\nTo use manually, add to your shell profile:")
+                    console.print(f'  export BUILDBETTER_API_KEY="{key}"')
+        else:
+            console.print("[dim]Skipped. You can run bb-skills configure anytime.[/dim]")
 
     return app
 

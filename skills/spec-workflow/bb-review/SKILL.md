@@ -1,5 +1,5 @@
 ---
-name: review
+name: bb-review
 description: Run a BuildBetter-first UX/usability and/or code review for the current feature.
 argument-hint: <usability|code|both>
 ---
@@ -28,7 +28,7 @@ This command is BuildBetter-first: prioritize `buildbetter-context.md`, `buildbe
    - Locate the current feature directory and verify available documents.
    - Required docs: `spec.md`, `plan.md`, `tasks.md`.
    - BuildBetter docs: `buildbetter-context.md`, `buildbetter-context.json`, `user-stories.md` (optional but preferred).
-   - If required docs are missing: stop and instruct the user to run the missing prerequisite skill (e.g., use the specify, plan, or tasks skill first).
+   - If required docs are missing: stop and instruct the user to run the missing prerequisite skill (e.g., use the bb-specify, bb-plan, or bb-tasks skill first).
 
 2. **Resolve review mode**
    - Parse `$ARGUMENTS`:
