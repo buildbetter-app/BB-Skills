@@ -1,6 +1,6 @@
 [project]
 name = "bb-skills"
-version = "1.1.0"
+version = "1.1.1"
 description = "Install and manage BB-Skills — AI coding skills enriched with BuildBetter customer evidence."
 readme = "README.md"
 license = "MIT"

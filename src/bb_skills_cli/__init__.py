@@ -1,6 +1,6 @@
 """BB-Skills CLI — install, update, and manage AI coding skills."""
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 import os
 import shutil
@@ -382,37 +382,58 @@ def create_app(skills_dir: Optional[Path] = None) -> typer.Typer:
 
         console.print(table)
 
+    ENVIRONMENTS = {
+        "production": {
+            "api_url": "https://api.buildbetter.app/v1/graphql",
+            "app_url": "https://app.buildbetter.app",
+        },
+        "staging": {
+            "api_url": "https://api-staging.buildbetter.app/v1/graphql",
+            "app_url": "https://app-staging.buildbetter.app",
+        },
+    }
+
     @app.command()
-    def configure():
-        """Configure BuildBetter API key and other settings."""
+    def configure(
+        staging: bool = typer.Option(False, "--staging", help="Configure for staging environment"),
+    ):
+        """Configure BuildBetter API key and environment."""
+        import json
+
         config_path = Path.home() / ".bb-skills" / "config.json"
+        env_name = "staging" if staging else "production"
+        env = ENVIRONMENTS[env_name]
 
         # Load existing config
         config = {}
         if config_path.exists():
-            import json
             config = json.loads(config_path.read_text(encoding="utf-8"))
 
         current_key = config.get("buildbetter_api_key", "")
+        current_env = config.get("environment", "production")
         if current_key:
             masked = current_key[:4] + "..." + current_key[-4:] if len(current_key) > 8 else "****"
             console.print(f"Current API key: {masked}")
+            console.print(f"Current environment: {current_env}")
 
-        console.print("\nBuildBetter API key enables customer evidence in spec-workflow skills.")
-        console.print("Get yours at https://app.buildbetter.app/settings/api")
+        console.print(f"\nConfiguring for [bold]{env_name}[/bold] environment.")
+        console.print(f"API: {env['api_url']}")
+        console.print(f"\nBuildBetter API key enables customer evidence in spec-workflow skills.")
+        console.print(f"Get yours at {env['app_url']}/settings/api")
         console.print("Press Enter to skip.\n")
 
         key = typer.prompt("BuildBetter API key", default="", show_default=False)
 
         if key:
             config["buildbetter_api_key"] = key
+            config["environment"] = env_name
+            config["buildbetter_graphql_url"] = env["api_url"]
             config_path.parent.mkdir(parents=True, exist_ok=True)
 
-            import json
             config_path.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
-            console.print(f"\n[green]API key saved to {config_path}[/green]")
+            console.print(f"\n[green]Saved to {config_path} ({env_name})[/green]")
 
-            # Offer to set env var in shell profile
+            # Offer to set env vars in shell profile
             shell = os.environ.get("SHELL", "")
             if "zsh" in shell:
                 profile = Path.home() / ".zshrc"
@@ -422,16 +443,26 @@ def create_app(skills_dir: Optional[Path] = None) -> typer.Typer:
                 profile = None
 
             if profile:
-                if typer.confirm(f"Add BUILDBETTER_API_KEY to {profile}?", default=True):
-                    line = f'\nexport BUILDBETTER_API_KEY="{key}"\n'
+                if typer.confirm(f"Add env vars to {profile}?", default=True):
+                    lines = f'\nexport BUILDBETTER_API_KEY="{key}"\n'
+                    lines += f'export BUILDBETTER_GRAPHQL_URL="{env["api_url"]}"\n'
                     with open(profile, "a") as f:
-                        f.write(line)
+                        f.write(lines)
                     console.print(f"[green]Added to {profile}. Run `source {profile}` or open a new terminal.[/green]")
                 else:
                     console.print(f"\nTo use manually, add to your shell profile:")
                     console.print(f'  export BUILDBETTER_API_KEY="{key}"')
+                    console.print(f'  export BUILDBETTER_GRAPHQL_URL="{env["api_url"]}"')
         else:
-            console.print("[dim]Skipped. You can run bb-skills configure anytime.[/dim]")
+            if staging:
+                # Still save environment switch even without a new key
+                config["environment"] = env_name
+                config["buildbetter_graphql_url"] = env["api_url"]
+                config_path.parent.mkdir(parents=True, exist_ok=True)
+                config_path.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
+                console.print(f"[green]Switched to {env_name} environment.[/green]")
+            else:
+                console.print("[dim]Skipped. You can run bb-skills configure anytime.[/dim]")
 
     return app
 
