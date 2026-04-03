@@ -45,6 +45,7 @@ class Manifest:
         }
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        self.path.chmod(0o600)
 
     def add_pack(self, pack_name: str, skills: list[str]):
         self.packs[pack_name] = {"skills": skills}
