@@ -1,6 +1,6 @@
 """BB-Skills CLI — install, update, and manage AI coding skills."""
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 
 import shutil
 import sys
@@ -30,10 +30,24 @@ RELEASES_URL = f"https://api.github.com/repos/{GITHUB_REPO}/releases/latest"
 
 
 def _find_skills_dir() -> Path:
-    """Find the skills/ directory — local clone or downloaded."""
+    """Find the skills/ directory — local clone, pip-installed, or downloaded."""
+    # 1. Local clone / dev checkout
     local = _project_root / "skills"
     if local.is_dir():
         return local
+
+    # 2. Pip-installed — skills/ is a sibling package in site-packages
+    try:
+        import skills as _skills_pkg
+        pkg_paths = list(getattr(_skills_pkg, "__path__", []))
+        if pkg_paths:
+            candidate = Path(pkg_paths[0])
+            if candidate.is_dir() and any(candidate.iterdir()):
+                return candidate
+    except ImportError:
+        pass
+
+    # 3. Manual download location
     return Path.home() / ".bb-skills" / "skills"
 
 
