@@ -1,0 +1,10 @@
+name: self-improvement
+display_name: "Self-Improvement Loop"
+description: "Capture user steering, run a periodic review to promote durable guidance, and self-coach from PR review history. All artifacts live under ~/.bb/ alongside the bb CLI."
+version: "1.0.0"
+skills:
+  - steering-capture
+  - steering-review
+  - pr-review-retrospective
+dependencies:
+  - core
