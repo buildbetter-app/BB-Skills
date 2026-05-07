@@ -72,6 +72,7 @@ bb-skills install trust-but-verify
 | `core` | bb-skills-update | Update checker (auto-included) |
 | `spec-workflow` | bb-specify, bb-plan, bb-review, bb-tasks, bb-clarify, bb-analyze, bb-checklist, bb-constitution, bb-implement | BuildBetter-enriched spec-driven development |
 | `testing` | app-navigator, trust-but-verify, generate-tests | Browser-based verification and Playwright test generation |
+| `self-improvement` | steering-capture, steering-review, pr-review-retrospective | Capture user steering, promote durable guidance, and self-coach from PR review history (uses `~/.bb/`) |
 
 ## Platform support
 
@@ -114,6 +115,14 @@ bb-skills install trust-but-verify
 | [app-navigator](skills/testing/app-navigator/) | Map application routes, pages, and components for UI/UX audit |
 | [trust-but-verify](skills/testing/trust-but-verify/) | Verify UI/UX and functionality match the original plan |
 | [generate-tests](skills/testing/generate-tests/) | Generate reusable Playwright test files from the app map |
+
+### self-improvement
+
+| Skill | Description |
+|-------|-------------|
+| [steering-capture](skills/self-improvement/steering-capture/) | Capture a user steering signal as a structured note under `~/.bb/steering-notes/` and apply the smallest durable adaptation |
+| [steering-review](skills/self-improvement/steering-review/) | Periodic review that clusters, scores, and promotes pending steering notes into `~/.claude/CLAUDE.md`, `~/.claude/rules/`, and `~/.claude/skills/` |
+| [pr-review-retrospective](skills/self-improvement/pr-review-retrospective/) | Pull your PR review history via `gh`, cluster reviewer feedback by theme, and auto-emit steering notes for recurring patterns |
 
 ## BuildBetter integration
 
